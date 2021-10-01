@@ -132,7 +132,7 @@ def export_tweets_to_csv(csv_path:str, header:list, tweet_list:list) -> bool:
                 curr_row = row
                 hashtag_str = ",".join(row['hashtags'])
                 mentions_str = ",".join(row['user_mentions'])
-                row_data = [row['id'], row['created_at'], row['lang'], hashtag_str, mentions_str, 
+                row_data = [row['id'], row['created_at'], row['user_name'], row['lang'], hashtag_str, mentions_str, 
                             row['retweet_count'], row['favorite_count'], row['retweeted'], row['message']]
                 write.writerow(row_data)
             result = True
@@ -217,7 +217,7 @@ if __name__ == "__main__":
     
     # 5. Save tweets to MongoDB
     yaml_path = '../data/tweets.csv'
-    header = ['id', 'created_at', 'lang', 'hashtags', 'user_mentions', 'retweet_count', 'favorite_count', 'retweeted', 'message']
+    header = ['id', 'created_at', 'user_name', 'lang', 'hashtags', 'user_mentions', 'retweet_count', 'favorite_count', 'retweeted', 'message']
     mongodb_upsert_docs(mdb_login, tweet_list)
     print('>> Tweets downloaded:', len(tweet_list))
     
