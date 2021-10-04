@@ -6,8 +6,8 @@ Created on Wed Sep 28 11:55:14 2021
 """
 
 # Import libraries
-import yaml
 import csv
+import yaml
 import tweepy
 from requests.exceptions import Timeout, SSLError, ConnectionError
 from requests.packages.urllib3.exceptions import ReadTimeoutError, ProtocolError
@@ -83,9 +83,7 @@ def get_all_tweets_by_ht(api, hashtags, since_date) -> list:
         for ht in hashtags:
             for tweet in tweepy.Cursor(api.search, q=ht, since=since_date_str).items():
                 if tweet.id_str not in all_tweets:
-                    all_tweets[tweet.id_str] = tweet
-                else:
-                    print(tweet)
+                    all_tweets[tweet.id_str] = tweet    
     
     except (tweepy.TweepError) as e:
         print('Error 1:', e)
