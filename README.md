@@ -1,6 +1,17 @@
 # Recsys2021 Twitter Interaction Analysis
+Analysis of the interaction between Twitter users during the ACM RecSys 2021 conference.
 
 ![WordCloud](https://raw.githubusercontent.com/ansegura7/recsys-tweet-analysis/master/img/wordcloud.png)
+
+
+## Python Dependencies
+``` console
+conda update --all
+conda install -c conda-forge spacy
+conda install -c conda-forge wordcloud
+conda install -c conda-forge tweepy
+conda install -c anaconda pymongo
+```
 
 ## Performed Analysis
 1. <a href="https://ansegura7.github.io/recsys-tweet-analysis/analysis/AccountAnalytics.html" >Twitter Interaction Analysis</a>
