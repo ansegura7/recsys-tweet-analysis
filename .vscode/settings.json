@@ -1,0 +1,19 @@
+{
+    "python.formatting.provider": "black",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass"
+            ]
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "python.linting.enabled": true
+}
