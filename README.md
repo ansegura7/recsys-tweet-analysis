@@ -1,5 +1,5 @@
-# Recsys2021 Twitter Interaction Analysis
-Analysis of the interaction between Twitter users during the ACM RecSys 2021 conference.
+# RecSys Twitter Interaction Analysis
+Analysis of the interaction between Twitter users during the <a href="https://recsys.acm.org/recsys22/" target="_blank">ACM RecSys 2022</a> conference.
 
 ![WordCloud](https://raw.githubusercontent.com/ansegura7/recsys-tweet-analysis/master/img/wordcloud.png)
 
@@ -22,7 +22,7 @@ Any kind of feedback/suggestions would be greatly appreciated (algorithm design,
 
 ## Author
 - Created by Andrés Segura-Tinoco
-- Created on Sep 28, 2021
+- Updated on Sep 19, 2022
 
 ## License
 This project is licensed under the terms of the <a href="https://github.com/ansegura7/recsys-tweet-analysis/blob/main/LICENSE">MIT license</a>.
