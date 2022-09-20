@@ -3,11 +3,38 @@ Analysis of the interaction between Twitter users during the <a href="https://re
 
 ![WordCloud](https://raw.githubusercontent.com/ansegura7/recsys-tweet-analysis/master/img/wordcloud.png)
 
-## Python Dependencies
-``` console
+## Run Tweepy bot
+Commands to create the virtual environment (`.venv`) and run the **Tweepy bot**:
+
+```console
+  cd C:\Dev Projects\recsys-tweet-analysis
+  python -m venv .venv
+  .venv\Scripts\activate
+  python code\tweets_downloader.py
+  deactivate
+```
+
+**Note**: The following command should be executed only the first time:
+
+```console
+  python -m venv .venv
+```
+
+## Project Dependencies
+The list of project requirements can be found in the following text <a href="https://github.com/ansegura7/recsys-tweet-analysis/blob/main/requirements.txt">file</a>.
+
+To automatically install the same version used for all dependencies, run the following commands in the terminal.
+
+```console
+  cd C:\Dev Projects\recsys-tweet-analysis
+  .venv\Scripts\activate
+  pip install -r requirements.txt
+```
+
+To manually install the latest version of Tweepy, run the following commands in the terminal:
+
+```console
   pip install tweepy
-  pip install pymongo
-  pip install PyYAML
 ```
 
 ## Performed Analysis
@@ -19,7 +46,7 @@ Any kind of feedback/suggestions would be greatly appreciated (algorithm design,
 
 ## Author
 - Created by Andrés Segura-Tinoco
-- Updated on Sep 19, 2022
+- Updated on Sep 20, 2022
 
 ## License
 This project is licensed under the terms of the <a href="https://github.com/ansegura7/recsys-tweet-analysis/blob/main/LICENSE">MIT license</a>.
