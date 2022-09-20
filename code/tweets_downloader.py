@@ -18,6 +18,26 @@ from requests.exceptions import ConnectionError, SSLError, Timeout
 ### CORE FUNCTIONS ###
 ######################
 
+# Util function - Extracts only the relevant fields of each tweet
+def deserialize_tweet(id_str, tweet):
+    message_bin = tweet.full_text.encode("utf-8")
+    new_tweet = {
+        "id": id_str,
+        "user_name": tweet.user.screen_name,
+        "created_at": tweet.created_at,
+        "message": message_bin.decode(),
+        "message_bin": message_bin,
+        "lang": tweet.lang,
+        "hashtags": [ht["text"] for ht in tweet.entities["hashtags"]],
+        "user_mentions": [mt["screen_name"] for mt in tweet.entities["user_mentions"]],
+        "retweet_count": tweet.retweet_count,
+        "favorite_count": tweet.favorite_count,
+        "retweeted": tweet.retweeted or message_bin.decode().startswith("RT "),
+        "source": tweet.source.encode("utf-8"),
+    }
+    return new_tweet
+
+
 # Util function - Read dict from yaml file
 def get_dict_from_yaml(yaml_path: str) -> dict:
     result = dict()
@@ -74,7 +94,41 @@ def get_tweets_date_since(mdb_login, max_date=False):
     return date_since
 
 
-# Twitter function - Fetch tweets list from a specific user
+# Twitter function - Fetch the list of tweets that tag a certain account
+# Note: Twitter only allows access to a users most recent 3240 tweets with this method
+def get_all_tweets_by_account(api, accounts, date_since) -> list:
+    all_tweets = {}
+
+    # Make initial request for most recent tweets (200 is the maximum allowed count)
+    try:
+        date_since_str = date_since.strftime("%Y-%m-%d")
+
+        # Save most recent tweets
+        for name in accounts:
+            print(name)
+            tweets = tweepy.Cursor(
+                api.user_timeline,
+                id=name,
+                since_id=date_since_str,
+                tweet_mode="extended",
+            ).items()
+
+            # Transform the tweepy tweets into a dict that contains the relevant fields of each tweet
+            for tweet in tweets:
+                key = tweet.id_str
+                if key not in all_tweets:
+                    all_tweets[key] = deserialize_tweet(key, tweet)
+
+    except (tweepy.TwitterServerError) as e:
+        print("Error 1:", e)
+
+    except (Timeout, SSLError, ConnectionError) as e:
+        print("Error 2:", e)
+
+    return all_tweets
+
+
+# Twitter function - Fetch the list of tweets that use certain hashtags
 # Note: Twitter only allows access to a users most recent 3240 tweets with this method
 def get_all_tweets_by_ht(api, hashtags, date_since) -> list:
     all_tweets = {}
@@ -89,9 +143,11 @@ def get_all_tweets_by_ht(api, hashtags, date_since) -> list:
                 api.search_tweets, q=ht, since_id=date_since_str, tweet_mode="extended"
             ).items()
 
+            # Transform the tweepy tweets into a dict that contains the relevant fields of each tweet
             for tweet in tweets:
-                if tweet.id_str not in all_tweets:
-                    all_tweets[tweet.id_str] = tweet
+                key = tweet.id_str
+                if key not in all_tweets:
+                    all_tweets[key] = deserialize_tweet(key, tweet)
 
     except (tweepy.TwitterServerError) as e:
         print("Error 1:", e)
@@ -99,29 +155,7 @@ def get_all_tweets_by_ht(api, hashtags, date_since) -> list:
     except (Timeout, SSLError, ConnectionError) as e:
         print("Error 2:", e)
 
-    # Transform the tweepy tweets into an array that contains the relevant fields of each tweet
-    tweet_list = []
-    for id_str, tweet in all_tweets.items():
-        message_bin = tweet.full_text.encode("utf-8")
-        new_tweet = {
-            "id": id_str,
-            "user_name": tweet.user.screen_name,
-            "created_at": tweet.created_at,
-            "message": message_bin.decode(),
-            "message_bin": message_bin,
-            "lang": tweet.lang,
-            "hashtags": [ht["text"] for ht in tweet.entities["hashtags"]],
-            "user_mentions": [
-                mt["screen_name"] for mt in tweet.entities["user_mentions"]
-            ],
-            "retweet_count": tweet.retweet_count,
-            "favorite_count": tweet.favorite_count,
-            "retweeted": tweet.retweeted or message_bin.decode().startswith("RT "),
-            "source": tweet.source.encode("utf-8"),
-        }
-        tweet_list.append(new_tweet)
-
-    return tweet_list
+    return all_tweets
 
 
 # Util function - save tweet list to CSV file
@@ -170,7 +204,7 @@ def mongodb_upsert_docs(mdb_login, doc_list):
     db = client[mdb_login["db"]]
     coll = db[mdb_login["collection"]]
     total_docs = coll.count_documents({})
-    print("", coll.name, "has", total_docs, "total documents.")
+    print(f" - {coll.name} collection has {total_docs} total documents.")
 
     # Upsert documents
     for doc in doc_list:
@@ -211,24 +245,28 @@ def main():
     auth = get_twitter_auth()
     api = tweepy.API(auth, wait_on_rate_limit=True)
     api.verify_credentials()
-    print(">> Authentication OK")
+    print(" - Authentication OK")
 
     # 2. Show user account details
     tw_user_name = "@ACMRecSys"
+    tw_hashtags = ["#RecSys2022", "#RecSys22"]
     user = api.get_user(screen_name=tw_user_name)
-    print(">> User details:")
-    print("  ", user.name)
-    print("  ", user.description)
-    print("  ", user.location)
-    print("  ", user.created_at)
+    print(" - User details:")
+    print(f"   {user.name}")
+    print(f"   {user.description}")
+    print(f"   {user.location}")
+    print(f"   {user.created_at}")
 
     # 3. Get max date
     mdb_login = get_mongodb_auth()
     date_since = get_tweets_date_since(mdb_login)
+    print(f" - Downloading data since: {date_since}")
 
-    # 4. Fetching tweet list from a specific user
-    hashtags = ["#RecSys2022", "#RecSys22"]
-    tweet_list = get_all_tweets_by_ht(api, hashtags, date_since)
+    # 4. Fetching tweet data
+    tweet_set_1 = {}  # get_all_tweets_by_account(api, tw_user_name, date_since)
+    tweet_set_2 = get_all_tweets_by_ht(api, tw_hashtags, date_since)
+    tweet_list = {**tweet_set_1, **tweet_set_2}.values()
+    print(len(tweet_set_1), len(tweet_set_2), len(tweet_list))
 
     # 5. Save tweets to MongoDB
     tweets_filepath = "data/tweets2022.csv"
@@ -245,12 +283,12 @@ def main():
         "message",
     ]
     mongodb_upsert_docs(mdb_login, tweet_list)
-    print(">> Tweets downloaded:", len(tweet_list))
+    print(" - Tweets downloaded:", len(tweet_list))
 
     # 6. Export all tweets to CSV file
     all_tweet_list = get_all_tweets_from_mongodb(mdb_login)
     export_tweets_to_csv(tweets_filepath, header, all_tweet_list)
-    print(">> Total tweets:", len(tweet_list))
+    print(" - Total tweets:", len(tweet_list))
 
 
 #####################
