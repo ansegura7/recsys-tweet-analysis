@@ -104,11 +104,12 @@ def get_all_tweets_by_account(api, account_name, date_since) -> list:
         date_since_str = date_since.strftime("%Y-%m-%d")
 
         # Save most recent tweets
-        tweets = api.search_tweets(
-            account_name,
+        tweets = tweepy.Cursor(
+            api.search_tweets,
+            q=account_name,
             since_id=date_since_str,
             tweet_mode="extended",
-        )
+        ).items()
 
         # Transform the tweepy tweets into a dict that contains the relevant fields of each tweet
         for tweet in tweets:

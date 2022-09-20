@@ -4,7 +4,7 @@ Analysis of the interaction between Twitter users during the <a href="https://re
 ![WordCloud](https://raw.githubusercontent.com/ansegura7/recsys-tweet-analysis/master/img/wordcloud.png)
 
 ## Run Tweepy bot
-Commands to create the virtual environment (`.venv`) and run the **Tweepy bot**:
+Commands to create the virtual environment (`.venv`) and run the **Tweepy bot** that downloads the list of tweets:
 
 ```console
   cd C:\Dev Projects\recsys-tweet-analysis
@@ -40,6 +40,9 @@ To manually install the latest version of Tweepy, run the following commands in 
 ## Performed Analysis
 1. <a href="https://ansegura7.github.io/recsys-tweet-analysis/analysis/AccountAnalytics.html" >Twitter Interaction Analysis</a>
 2. <a href="https://observablehq.com/@ansegura7/force-directed-graph">Network Analysis</a>
+
+## Disclaimer
+Neither the Twitter accounts nor the content of the tweets are used for profit. Only general statistics are calculated about them and shared with the RecSys community.
 
 ## Contributing and Feedback
 Any kind of feedback/suggestions would be greatly appreciated (algorithm design, documentation, improvement ideas, spelling mistakes, etc...). If you want to make a contribution to the course you can do it through a PR.
