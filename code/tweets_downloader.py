@@ -96,7 +96,7 @@ def get_tweets_date_since(mdb_login, max_date=False):
 
 # Twitter function - Fetch the list of tweets that tag a certain account
 # Note: Twitter only allows access to a users most recent 3240 tweets with this method
-def get_all_tweets_by_account(api, accounts, date_since) -> list:
+def get_all_tweets_by_account(api, account_name, date_since) -> list:
     all_tweets = {}
 
     # Make initial request for most recent tweets (200 is the maximum allowed count)
@@ -104,20 +104,17 @@ def get_all_tweets_by_account(api, accounts, date_since) -> list:
         date_since_str = date_since.strftime("%Y-%m-%d")
 
         # Save most recent tweets
-        for name in accounts:
-            print(name)
-            tweets = tweepy.Cursor(
-                api.user_timeline,
-                id=name,
-                since_id=date_since_str,
-                tweet_mode="extended",
-            ).items()
+        tweets = api.search_tweets(
+            account_name,
+            since_id=date_since_str,
+            tweet_mode="extended",
+        )
 
-            # Transform the tweepy tweets into a dict that contains the relevant fields of each tweet
-            for tweet in tweets:
-                key = tweet.id_str
-                if key not in all_tweets:
-                    all_tweets[key] = deserialize_tweet(key, tweet)
+        # Transform the tweepy tweets into a dict that contains the relevant fields of each tweet
+        for tweet in tweets:
+            key = tweet.id_str
+            if key not in all_tweets:
+                all_tweets[key] = deserialize_tweet(key, tweet)
 
     except (tweepy.TwitterServerError) as e:
         print("Error 1:", e)
@@ -263,7 +260,7 @@ def main():
     print(f" - Downloading data since: {date_since}")
 
     # 4. Fetching tweet data
-    tweet_set_1 = {}  # get_all_tweets_by_account(api, tw_user_name, date_since)
+    tweet_set_1 = get_all_tweets_by_account(api, tw_user_name, date_since)
     tweet_set_2 = get_all_tweets_by_ht(api, tw_hashtags, date_since)
     tweet_list = {**tweet_set_1, **tweet_set_2}.values()
     print(len(tweet_set_1), len(tweet_set_2), len(tweet_list))
