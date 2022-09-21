@@ -171,15 +171,13 @@ def export_tweets_to_csv(csv_path: str, header: list, tweet_list: list) -> bool:
             write.writerow(header)
             for row in tweet_list:
                 curr_row = row
-                hashtag_str = ",".join(row["hashtags"])
-                mentions_str = ",".join(row["user_mentions"])
                 row_data = [
                     row["id"],
                     row["created_at"],
                     row["user_name"],
                     row["lang"],
-                    hashtag_str,
-                    mentions_str,
+                    ",".join(row["hashtags"]),
+                    ",".join(row["user_mentions"]),
                     row["retweet_count"],
                     row["favorite_count"],
                     row["retweeted"],
@@ -238,6 +236,7 @@ def get_all_tweets_from_mongodb(mdb_login):
     return all_tweet_list
 
 
+# Program start point
 def main():
     # 1. Create Twitter API bot
     auth = get_twitter_auth()
@@ -250,10 +249,9 @@ def main():
     tw_hashtags = ["#RecSys2022", "#RecSys22"]
     user = api.get_user(screen_name=tw_user_name)
     print(" - User details:")
-    print(f"   {user.name}")
-    print(f"   {user.description}")
-    print(f"   {user.location}")
-    print(f"   {user.created_at}")
+    print(
+        f"\t{user.name}\n\t{user.description}\n\t{user.location}\n\t{user.created_at}"
+    )
 
     # 3. Get max date
     mdb_login = get_mongodb_auth()
@@ -264,7 +262,9 @@ def main():
     tweet_set_1 = get_all_tweets_by_account(api, tw_user_name, date_since)
     tweet_set_2 = get_all_tweets_by_ht(api, tw_hashtags, date_since)
     tweet_list = {**tweet_set_1, **tweet_set_2}.values()
-    print(len(tweet_set_1), len(tweet_set_2), len(tweet_list))
+    print(
+        f" - set 1 n: {len(tweet_set_1)}, set 2 n: {len(tweet_set_2)}, total: {len(tweet_list)}"
+    )
 
     # 5. Save tweets to MongoDB
     tweets_filepath = "data/tweets2022.csv"
