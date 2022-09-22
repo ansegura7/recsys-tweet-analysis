@@ -7,8 +7,8 @@ import pandas as pd
 import tweets_downloader as lib
 
 
-def get_hashtags_freq(df):
-    ht_tokens = ",".join(str(v).lower() for v in df["hashtags"])
+def get_hashtags_freq(col_data):
+    ht_tokens = ",".join(str(v).lower() for v in col_data)
     ht_tokens = (
         ht_tokens.replace("[", "").replace("]", "").replace("'", "").replace(" ", "")
     )
@@ -18,7 +18,7 @@ def get_hashtags_freq(df):
     return ht_freq
 
 
-def get_bigrams_freq(df):
+def get_bigrams_freq(col_data):
     return {}
 
 
@@ -37,10 +37,10 @@ def create_race_data(df, method):
         curr_df = df[df["created_at"] < min_date]
 
         if method == "hashtags":
-            freq_data = get_hashtags_freq(curr_df)
+            freq_data = get_hashtags_freq(curr_df["hashtags"])
 
         elif method == "bigrams":
-            freq_data = get_bigrams_freq(curr_df)
+            freq_data = get_bigrams_freq(curr_df["message"])
         else:
             freq_data = {}
 
