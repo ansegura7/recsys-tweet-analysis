@@ -1,10 +1,57 @@
 # Import libraries
+import re
 from collections import Counter
 from datetime import datetime
 
 import pandas as pd
 
 import tweets_downloader as lib
+
+# Global NLP variables
+punt_marks = [
+    "\n",
+    '"',
+    "\\",
+    "/",
+    "¡",
+    "!",
+    "¿",
+    "?",
+    ".",
+    ",",
+    ";",
+    ":",
+    "_",
+    "-",
+    "#",
+    "$",
+    "%",
+    "&",
+    "(",
+    ")",
+    "'",
+]
+rx = "[" + re.escape("".join(punt_marks)) + "]"
+
+
+def get_stopwords(lang: str) -> set:
+    stopwords = []
+
+    filename = "data/stopwords/" + lang + ".txt"
+    with open(filename) as file:
+        lines = file.readlines()
+        stopwords = [line.rstrip() for line in lines]
+
+    return set(stopwords)
+
+
+# Util function - Clean tweet text
+def dq_clean_text(text):
+    clean_text = text.lower()
+    clean_text = re.sub(rx, " ", clean_text)
+    clean_text = re.sub(r"\.+", " ", clean_text)
+    clean_text = re.sub(r"\s+", " ", clean_text)
+    return clean_text
 
 
 def get_hashtags_freq(col_data):
@@ -13,13 +60,49 @@ def get_hashtags_freq(col_data):
         ht_tokens.replace("[", "").replace("]", "").replace("'", "").replace(" ", "")
     )
     ht_list = [token for token in ht_tokens.split(",") if token != ""]
-    ht_freq = dict(Counter(ht_list).most_common())
 
+    # Parsing and returning data
+    ht_freq = dict(Counter(ht_list))
     return ht_freq
 
 
 def get_bigrams_freq(col_data):
-    return {}
+
+    # Calculate most common bigrams and reconstruct full text with used words
+    bigram_list = Counter()
+    new_clean_text = ""
+
+    # Get Spanish stopwords
+    stopwords_sp = get_stopwords("spanish")
+    stopwords_en = get_stopwords("english") | set({"http", "https"})
+
+    # Create list of words
+    for tweet_text in col_data.tolist():
+        clean_text = dq_clean_text(tweet_text)
+        tokens = clean_text.split(" ")
+        bigram = ""
+        last_word = ""
+
+        for word in tokens:
+            if (
+                (word not in stopwords_sp)
+                and (word not in stopwords_en)
+                and (len(word) > 2)
+                and (word[0] != "@")
+            ):
+                # Reconstructing the clean text (without stop-words)
+                new_clean_text += " " + word
+
+                # Add bigrams-freq to Dataframe
+                if last_word != "":
+                    bigram = last_word + "-" + word
+                    bigram_list[bigram] += 1
+
+                last_word = word
+
+    # Parsing and returning data
+    bg_freq = dict(bigram_list)
+    return bg_freq
 
 
 def create_race_data(df, method):
@@ -66,12 +149,14 @@ def main():
         df = pd.DataFrame.from_records(all_tweet_list)
         df["created_at"] = pd.to_datetime(df["created_at"], format="%d%b%Y:%H:%M:%S.%f")
 
-        # Create race data
+        # Create and save hashtags race data
+        print(" - Create and save hashtags race data:")
         data_ht = create_race_data(df, "hashtags")
-        data_bg = create_race_data(df, "bigrams")
-
-        # Export hashtag and bigrams data to CSV files
         data_ht.to_csv("data/ht_race_data.csv")
+
+        # Create and save bigrams race data
+        print(" - Create and save bigrams race data:")
+        data_bg = create_race_data(df, "bigrams")
         data_bg.to_csv("data/bg_race_data.csv")
 
 
