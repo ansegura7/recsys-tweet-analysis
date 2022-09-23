@@ -105,19 +105,21 @@ def get_bigrams_freq(col_data):
     return bg_freq
 
 
-def create_race_data(df, method):
+def create_race_data(df, method, frame_hrs):
     data = pd.DataFrame()
 
     # Min and max dates
     min_date = min(df["created_at"])
     max_date = max(df["created_at"])
+    upr_date = min_date
     print(f"Min date: {min_date}, and max date: {max_date}")
 
     # While lopp
-    while min_date <= max_date:
-        min_date = min_date + pd.DateOffset(hours=12)
-        col_name = str(min_date)
-        curr_df = df[df["created_at"] < min_date]
+    while upr_date <= max_date:
+        upr_date = upr_date + pd.DateOffset(hours=12)
+        lwr_date = upr_date + pd.DateOffset(hours=-frame_hrs)
+        col_name = str(upr_date)
+        curr_df = df[(df["created_at"] > lwr_date) & (df["created_at"] <= upr_date)]
 
         if method == "hashtags":
             freq_data = get_hashtags_freq(curr_df["hashtags"])
@@ -130,7 +132,7 @@ def create_race_data(df, method):
         new_col = pd.DataFrame.from_dict(freq_data, orient="index", columns=[col_name])
         data = pd.concat([data, new_col], axis=1)
         print(
-            f"Total data: {len(data)}, current date: {min_date}, total rows: {len(curr_df)}, total columns: {len(data.columns)}, total tokens: {len(freq_data)}"
+            f"Total data: {len(data)}, date frame: {lwr_date} and {upr_date}, total rows: {len(curr_df)}, total columns: {len(data.columns)}, total tokens: {len(freq_data)}"
         )
 
     # Complete NaN with 0 and return data
@@ -147,16 +149,17 @@ def main():
 
     if len(all_tweet_list):
         df = pd.DataFrame.from_records(all_tweet_list)
-        df["created_at"] = pd.to_datetime(df["created_at"], format="%d%b%Y:%H:%M:%S.%f")
+        df["created_at"] = pd.to_datetime(df["created_at"])
+        frame_hrs = 3 * 24
 
         # Create and save hashtags race data
         print(" - Create and save hashtags race data:")
-        data_ht = create_race_data(df, "hashtags")
+        data_ht = create_race_data(df, "hashtags", frame_hrs)
         data_ht.to_csv("data/ht_race_data.csv")
 
         # Create and save bigrams race data
         print(" - Create and save bigrams race data:")
-        data_bg = create_race_data(df, "bigrams")
+        data_bg = create_race_data(df, "bigrams", frame_hrs)
         data_bg.to_csv("data/bg_race_data.csv")
 
 

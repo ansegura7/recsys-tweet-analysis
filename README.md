@@ -49,7 +49,7 @@ Any kind of feedback/suggestions would be greatly appreciated (algorithm design,
 
 ## Author
 - Created by Andrés Segura-Tinoco
-- Updated on Sep 22, 2022
+- Updated on Sep 23, 2022
 
 ## License
 This project is licensed under the terms of the <a href="https://github.com/ansegura7/recsys-tweet-analysis/blob/main/LICENSE">MIT license</a>.

@@ -286,7 +286,7 @@ def main():
     # 6. Export all tweets to CSV file
     all_tweet_list = get_all_tweets_from_mongodb(mdb_login)
     export_tweets_to_csv(tweets_filepath, header, all_tweet_list)
-    print(" - Total tweets:", len(tweet_list))
+    print(" - Total tweets:", len(all_tweet_list))
 
 
 #####################
