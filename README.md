@@ -1,45 +1,20 @@
 # RecSys 2022 Twitter Interaction Analysis
-Analysis of the interaction between Twitter users during the <a href="https://recsys.acm.org/recsys22/" target="_blank">ACM RecSys 2022</a> conference.
+
+The following is a descriptive and network analysis of <a href="https://recsys.acm.org/recsys22/" target="_blank">ACM RecSys 2022</a> conference participant interactions on Twitter.
 
 ![WordCloud](https://raw.githubusercontent.com/ansegura7/recsys-tweet-analysis/master/img/wordcloud.png)
 
-## Run Tweepy bot
-Commands to create the virtual environment (`.venv`) and run the **Tweepy bot** that downloads the list of tweets:
+<div>
+  First of all, the most prolific and active person on Twitter during RecSys was <a href="https://twitter.com/ManelSlokom" target="_blank">Manel Slokom</a>, who was sharing content about countless talks and presentations she attended. Thanks Manel! :clap:
 
-```console
-  cd C:\Dev Projects\recsys-tweet-analysis
-  python -m venv .venv
-  .venv\Scripts\activate
-  python code\tweets_downloader.py
-  deactivate
-```
+  <div class="flourish-embed flourish-hierarchy" data-src="visualisation/11246295"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
+</div>
 
-**Note**: The following command should be executed only the first time:
+<div>
+  On the other hand, the most tagged account was <a href="https://twitter.com/craig_macdonald" target="_blank">@craig_macdonald</a> (everyone wanted to talk to Craig Macdonald's).
 
-```console
-  python -m venv .venv
-```
-
-## Project Dependencies
-The list of project requirements can be found in the following text <a href="https://github.com/ansegura7/recsys-tweet-analysis/blob/main/requirements.txt">file</a>.
-
-To automatically install the same version used for all dependencies, run the following commands in the terminal.
-
-```console
-  cd C:\Dev Projects\recsys-tweet-analysis
-  .venv\Scripts\activate
-  pip install -r requirements.txt
-```
-
-To manually install the latest version of Tweepy, run the following commands in the terminal:
-
-```console
-  pip install tweepy
-```
-
-## Performed Analysis
-1. <a href="https://ansegura7.github.io/recsys-tweet-analysis/analysis/AccountAnalytics.html" >Twitter Interaction Analysis</a>
-2. <a href="https://observablehq.com/@ansegura7/force-directed-graph">Network Analysis</a>
+  <div class="flourish-embed flourish-hierarchy" data-src="visualisation/11270475"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
+</div>
 
 ## Disclaimer
 Neither the Twitter accounts nor the content of the tweets are used for profit. Only general statistics are calculated about them and shared with the RecSys community.
