@@ -56,6 +56,12 @@ The following is a descriptive and network analysis of <a href="https://recsys.a
   <div class="flourish-embed flourish-bar-chart-race" data-src="visualisation/11260610"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
 </div>
 
+## Network analysis
+
+Finally, a directed weighted graph, constructed from the interactions between RecSys 2022 participants with each other on Twitter (i.e., mentions, tagging, responses, etc.).
+
+![WordCloud](https://raw.githubusercontent.com/ansegura7/recsys-tweet-analysis/master/img/graph.png)
+
 ## Disclaimer
 Neither the Twitter accounts nor the content of the tweets are used for profit. Only general statistics are calculated about them and shared with the RecSys community.
 
