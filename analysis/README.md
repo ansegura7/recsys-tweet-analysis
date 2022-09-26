@@ -3,7 +3,7 @@ The following is a descriptive and network analysis of <a href="https://recsys.a
 ## General statistics
 
 <div>
-  During the two weeks of data collection (from 09/12 to 09/25), 2,289 tweets were posted (with the hashtags <a href="https://twitter.com/hashtag/recsys2022" target="_blank">#RecSys2022</a> or <a href="https://twitter.com/hashtag/recsys22" target="_blank">#RecSys22</a>, or directly referencing the <a href="https://twitter.com/ACMRecSys" target="_blank">@ACMRecSys</a> account), an increase of 8.9% over last year.
+  During the two weeks of data collection (from 09/12 to 09/25), at least 2,289 tweets were posted (with the hashtags <a href="https://twitter.com/hashtag/recsys2022" target="_blank">#RecSys2022</a> or <a href="https://twitter.com/hashtag/recsys22" target="_blank">#RecSys22</a>, or directly referencing the <a href="https://twitter.com/ACMRecSys" target="_blank">@ACMRecSys</a> account), an increase of 8.9% over last year.
 
   <div class="flourish-embed flourish-chart" data-src="visualisation/11289748"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
 </div>
@@ -49,7 +49,7 @@ The following is a descriptive and network analysis of <a href="https://recsys.a
 </div>
 
 <div>
-  However, if you want to know what the RecSys 2022 trend has been day by day, you can find it in the following 2 bar charts races.
+  However, if you want to know what the RecSys 2022 trend has been day by day, you can find it in the following 2 bar chart races.
 
   <div class="flourish-embed flourish-bar-chart-race" data-src="visualisation/11258635"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
 
