@@ -62,6 +62,9 @@ Finally, a directed weighted graph, constructed from the interactions between Re
 
 ![WordCloud](https://raw.githubusercontent.com/ansegura7/recsys-tweet-analysis/master/img/graph.png)
 
+## Code
+For more information on this visual analysis, please refer to the following <a href="https://ansegura7.github.io/recsys-tweet-analysis/analysis/AccountAnalytics.html" >jupyter notebook</a>.
+
 ## Disclaimer
 Neither the Twitter accounts nor the content of the tweets are used for profit. Only general statistics are calculated about them and shared with the RecSys community.
 
