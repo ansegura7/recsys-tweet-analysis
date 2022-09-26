@@ -3,6 +3,9 @@ Analysis of the interaction between Twitter users during the <a href="https://re
 
 ![WordCloud](https://raw.githubusercontent.com/ansegura7/recsys-tweet-analysis/master/img/wordcloud.png)
 
+## Data
+Data has been collected with the Twitter API for 2 weeks (from 09/12 to 09/25).
+
 ## Run Tweepy bot
 Commands to create the virtual environment (`.venv`) and run the **Tweepy bot** that downloads the list of tweets:
 

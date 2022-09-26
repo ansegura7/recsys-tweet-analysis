@@ -1,13 +1,17 @@
 The following is a descriptive and network analysis of <a href="https://recsys.acm.org/recsys22/" target="_blank">ACM RecSys 2022</a> conference participant interactions on Twitter.
 
+## General statistics
+
+During the two weeks of data collection (from 09/12 to 09/25), 2,289 tweets were posted (with the hashtags <a href="https://twitter.com/hashtag/recsys2022" target="_blank">#RecSys2022</a> or <a href="https://twitter.com/hashtag/recsys22" target="_blank">#RecSys22</a>, or directly referencing the <a href="https://twitter.com/ACMRecSys" target="_blank">@ACMRecSys</a> account), an increase of 8.9% over last year.
+
 <div>
-  First of all, the most prolific and active person on Twitter during RecSys was <a href="https://twitter.com/ManelSlokom" target="_blank">Manel Slokom</a>, who was sharing content about countless talks and presentations she attended. Thanks Manel! &#128079;
+  The most prolific and active person on Twitter during RecSys was <a href="https://twitter.com/ManelSlokom" target="_blank">Manel Slokom</a>, who was sharing content about countless talks and presentations she attended. Thanks Manel! &#128079;
 
   <div class="flourish-embed flourish-hierarchy" data-src="visualisation/11246295"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
 </div>
 
 <div>
-  On the other hand, the most tagged account was <a href="https://twitter.com/craig_macdonald" target="_blank">@craig_macdonald</a> (everyone wanted to talk to Craig Macdonald's).
+  On the other hand, the 2 most tagged accounts were <a href="https://twitter.com/FAccTRec" target="_blank">@FAccTRec</a> and <a href="https://twitter.com/craig_macdonald" target="_blank">@craig_macdonald</a>, respectively, for the workshop that was trending on Friday, and for the person (Craig Macdonald) that everyone wanted to talk to during the conference &#128513;.
 
   <div class="flourish-embed flourish-hierarchy" data-src="visualisation/11270475"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
 </div>
